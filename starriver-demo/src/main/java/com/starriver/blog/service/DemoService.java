@@ -1,7 +1,5 @@
 package com.starriver.blog.service;
 
-import com.starriver.blog.model.TAdmin;
-
 import java.util.List;
 
 /**
@@ -10,5 +8,5 @@ import java.util.List;
  * @date 2020/12/18
  */
 public interface DemoService {
-    List<TAdmin> listAllAdmin();
+//    List<TAdmin> listAllAdmin();
 }

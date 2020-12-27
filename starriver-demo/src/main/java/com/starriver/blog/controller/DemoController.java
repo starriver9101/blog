@@ -1,7 +1,7 @@
 package com.starriver.blog.controller;
 
 import com.starriver.blog.api.CommonResult;
-import com.starriver.blog.model.TAdmin;
+import com.starriver.blog.model.Admin;
 import com.starriver.blog.service.DemoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -31,8 +31,9 @@ public class DemoController {
     @ApiOperation(value = "获取全部品牌列表")
     @RequestMapping(value = "/brand/listAll", method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult<List<TAdmin>> getBrandList() {
-        return CommonResult.success(demoService.listAllAdmin());
+    public CommonResult<List<Admin>> getBrandList() {
+        return  null;
+//        return CommonResult.success(demoService.listAllAdmin());
     }
 }
 
