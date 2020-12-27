@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.starriver.blog.dao.AdminRoleDao">
+    <resultMap id="RoleBaseResultMap" type="com.starriver.blog.model.Role">
+        <id column="id" jdbcType="VARCHAR" property="id" />
+        <result column="role_name" jdbcType="VARCHAR" property="roleName" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+        <result column="status" jdbcType="TINYINT" property="status" />
+        <result column="summary" jdbcType="VARCHAR" property="summary" />
+    </resultMap>
+    <resultMap extends="RoleBaseResultMap" id="RoleResultMapWithBLOBs" type="com.starriver.blog.model.Role">
+        <result column="category_menu_ids" jdbcType="LONGVARCHAR" property="categoryMenuIds" />
+    </resultMap>
+    <resultMap id="MenuBaseResultMap" type="com.starriver.blog.model.Menu">
+        <id column="id" jdbcType="VARCHAR" property="id" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="menu_level" jdbcType="BIT" property="menuLevel" />
+        <result column="summary" jdbcType="VARCHAR" property="summary" />
+        <result column="parent_id" jdbcType="VARCHAR" property="parentId" />
+        <result column="url" jdbcType="VARCHAR" property="url" />
+        <result column="icon" jdbcType="VARCHAR" property="icon" />
+        <result column="sort" jdbcType="INTEGER" property="sort" />
+        <result column="status" jdbcType="BIT" property="status" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+        <result column="is_show" jdbcType="BIT" property="isShow" />
+        <result column="menu_type" jdbcType="BIT" property="menuType" />
+        <result column="is_jump_external_url" jdbcType="BIT" property="isJumpExternalUrl" />
+    </resultMap>
+    <sql id="Role_Base_Column_List">
+    id, role_name, create_time, update_time, status, summary
+  </sql>
+    <sql id="Role_Blob_Column_List">
+    category_menu_ids
+  </sql>
+    <sql id="Menu_Base_Column_List">
+        id, name, menu_level, summary, parent_id, url, icon, sort, status, create_time,
+         update_time, is_show, menu_type, is_jump_external_url
+    </sql>
+    <select id="getRoleByAdminId" parameterType="java.lang.String" resultMap="RoleResultMapWithBLOBs">
+        select
+
+        <include refid="Role_Blob_Column_List" />
+        ,
+        <include refid="Role_Blob_Column_List" />
+        from t_role
+        where id = ( SELECT role_id FROM t_admin WHERE id = #{adminId,jdbcType=VARCHAR})
+    </select>
+    <select id="getMenuByIds" resultMap="MenuBaseResultMap">
+        select
+        <include refid="Menu_Base_Column_List" />
+        from t_menu
+        where id in
+        <foreach item="item" index="index" collection="menuIds" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+</mapper>
+
